@@ -14,8 +14,6 @@ Cypress.Commands.add("ondemandLogin", () => {
 	} = ondemandElements;
 	console.log(usernameInput);
 
-	// ! todo: find the way to pass selector into session()
-
 	cy.session(
 		`username:${sessionName}`,
 		() => {
