@@ -27,12 +27,12 @@ Cypress.Commands.add("ondemandLogin", () => {
 			// ! To interact with cross origin contents
 			cy.origin(
 				ondemandUserPortalUrl,
-				{ args: { usernameInput } },
-				({ usernameInput }) => {
+				{ args: { usernameInput, passwordInput, loginButton } },
+				({ usernameInput, passwordInput, loginButton }) => {
 					cy.url().should("include", "/user-portal");
 					cy.get(usernameInput.selector).type("10000088");
-					cy.get("#password").type("787288");
-					cy.get("#signin").click();
+					cy.get(passwordInput).type("787288");
+					cy.get(loginButton).click();
 				}
 			);
 		},
