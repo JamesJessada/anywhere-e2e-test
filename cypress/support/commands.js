@@ -29,8 +29,8 @@ Cypress.Commands.add("ondemandLogin", () => {
 				({ usernameInput, passwordInput, loginButton }) => {
 					cy.url().should("include", "/user-portal");
 					cy.get(usernameInput.selector).type("10000088");
-					cy.get(passwordInput).type("787288");
-					cy.get(loginButton).click();
+					cy.get(passwordInput.selector).type("787288");
+					cy.get(loginButton.selector).click();
 				}
 			);
 		},
