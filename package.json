@@ -1,0 +1,10 @@
+{
+	"name": "anywhere-e2e-test",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"devDependencies": {
+		"cypress": "^12.5.1",
+		"typescript": "^4.9.5"
+	}
+}
