@@ -1,35 +1,47 @@
-import ondemandElements from "../fixtures/common/User/Ondemand/element-selectors";
+import onDemandElements from "../fixtures/common/User/Ondemand/element-selectors";
 
-const userPortalUrl = Cypress.env("user_portal_url");
-const { ondemand: ondemandUserPortalUrl, session_name: sessionName } =
-	userPortalUrl;
+const ENV_DATA = Cypress.env();
+console.log({ ENV_DATA });
+const { userPortalUrl } = ENV_DATA;
+const { users } = ENV_DATA;
+const { onDemand: onDemandUsers, learn: learnUsers } = users;
 
-Cypress.Commands.add("ondemandLogin", () => {
+Cypress.Commands.add("onDemandLogin", () => {
 	Cypress.session.clearAllSavedSessions();
 	const {
 		userPortalNavigationButton,
 		usernameInput,
 		passwordInput,
 		loginButton,
-	} = ondemandElements;
-	console.log(usernameInput);
+	} = onDemandElements;
+
+	const { name, username, password } = onDemandUsers[0];
+
+	console.log({ onDemandUsers });
 
 	cy.session(
-		`username:${sessionName}`,
+		`username:${name}`,
 		() => {
-			cy.visit(Cypress.env("base_url"));
+			cy.visit(Cypress.env("baseUrl"));
 			// ! avoid test failure from CORB
 			cy.on("uncaught:exception", () => false);
 			cy.get(userPortalNavigationButton.selector).click();
-
 			// ! To interact with cross origin contents
 			cy.origin(
-				ondemandUserPortalUrl,
-				{ args: { usernameInput, passwordInput, loginButton } },
-				({ usernameInput, passwordInput, loginButton }) => {
+				userPortalUrl.onDemand,
+				{
+					args: {
+						usernameInput,
+						passwordInput,
+						loginButton,
+						username,
+						password,
+					},
+				},
+				({ usernameInput, passwordInput, loginButton, username, password }) => {
 					cy.url().should("include", "/user-portal");
-					cy.get(usernameInput.selector).type("10000088");
-					cy.get(passwordInput.selector).type("787288");
+					cy.get(usernameInput.selector).type(username);
+					cy.get(passwordInput.selector).type(password);
 					cy.get(loginButton.selector).click();
 				}
 			);
